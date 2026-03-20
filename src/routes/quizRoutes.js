@@ -11,11 +11,17 @@ const {
   getResult
 } = require("../controllers/quizController");
 
-router.post("/", createQuiz);
-router.post("/:quizId/questions", createQuestion);
+const {
+  validateCreateQuiz,
+  validateCreateQuestion,
+  validateSubmitAnswer
+} = require("../middleware/validate");
+
+router.post("/", validateCreateQuiz, createQuiz);
+router.post("/:quizId/questions", validateCreateQuestion, createQuestion);
 router.post("/:quizId/start", startQuiz);
 router.get("/:quizId/question/:index", getQuestion);
-router.post("/answer", submitAnswer);
+router.post("/answer", validateSubmitAnswer, submitAnswer);
 router.get("/progress/:attemptId", getProgress);
 router.get("/result/:attemptId", getResult);
 

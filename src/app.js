@@ -15,4 +15,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use("/api/quiz", quizRoutes);
 
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(status).json({ error: message });
+});
+
 module.exports = app;
