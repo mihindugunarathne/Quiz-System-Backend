@@ -112,7 +112,9 @@ exports.submitAnswer = async (attemptId, questionId, selectedOptionIndex) => {
   if (isCorrect) attempt.score++;
   await attempt.save();
 
-  return { correct: isCorrect, score: attempt.score };
+  const correctOptionIndex = question.options.findIndex(opt => opt.isCorrect);
+
+  return { correct: isCorrect, score: attempt.score, correctOptionIndex };
 };
 
 exports.getProgress = async (attemptId) => {
